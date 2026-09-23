@@ -10,12 +10,12 @@ Turn one public Threads post URL into one clean, deduplicated sticker ZIP. Optim
 ## Workflow
 
 1. Accept a public `threads.com` or `threads.net` post URL. Do not request cookies, credentials, or login.
-2. Prefer the Codex in-app browser and its page-asset inspection capability. Open the URL hidden, allow share links to redirect, then inspect the rendered target post with one DOM evaluation and one asset inventory.
+2. Prefer the Codex in-app browser and its page-asset inspection capability. Open the URL hidden, allow share links to redirect, then inspect the rendered target post with one DOM evaluation and one asset inventory. If no available browser capability can read current media assets, stop and state that the required browser capability is unavailable; do not substitute screenshots or page photos.
 3. Interpret “表情包 / stickers” narrowly. Select inline GIFs, Giphy or Tenor resources, animated WebP files, or clearly sticker-like transparent images from the main post only.
 4. When the main post contains explicit GIF, Giphy, or Tenor resources, select those and exclude ordinary carousel photos, quoted-post screenshots, avatars, logos, reaction icons, tracking pixels, and media from replies or related posts. Never package every asset on the page.
 5. Download all high-confidence sticker assets in one browser operation. Skip preview and confirmation when classification is unambiguous.
 6. Run `scripts/pack_only.py --input <download-dir> --output <final.zip>`. The script validates GIF, WebP, and PNG signatures, removes exact SHA-256 duplicates, and creates a flat ZIP containing only numbered sticker files. Choose a fresh output path; use `--force` only when the user has authorized replacing that exact ZIP.
-7. Verify the ZIP entry count. Return only the ZIP link plus the number and formats of stickers; do not create or mention auxiliary files.
+7. Verify the ZIP entry count. If no valid sticker remains, do not create or return a ZIP; state that no extractable sticker was found in the main post. Otherwise return only the ZIP link plus the number and formats of stickers; do not create or mention auxiliary files.
 
 ## Ambiguous posts
 

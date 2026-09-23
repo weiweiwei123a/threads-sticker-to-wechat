@@ -1,5 +1,7 @@
 # Publishing and installation
 
+Canonical repository: `https://github.com/weiweiwei123a/threads-sticker-to-wechat`
+
 Publish the skill from a clean public GitHub repository. Keep the skill at the repository root so a repository URL is sufficient for installation.
 
 Recommended repository contents:
@@ -24,7 +26,16 @@ Before creating a release:
 4. Install the repository into a clean Codex environment and run one public Threads post end to end.
 5. Tag the tested commit as the release; use a pre-release tag when browser behavior has not been verified recently.
 
-Users can ask Codex to install the GitHub repository with `skill-installer`, then invoke `$threads-sticker-to-wechat` with a public Threads post URL.
+Users can install the repository in a new Codex task with this exact message:
+
+```text
+请使用 $skill-installer 安装这个 Skill：
+https://github.com/weiweiwei123a/threads-sticker-to-wechat
+```
+
+After installation, start a new task and invoke `$threads-sticker-to-wechat` with one public Threads post URL.
+
+When updating the existing GitHub repository through the web interface, upload the repository contents rather than a ZIP file or an extra outer folder. Confirm that `SKILL.md` remains at the repository root before committing.
 
 State these limits on the repository page:
 

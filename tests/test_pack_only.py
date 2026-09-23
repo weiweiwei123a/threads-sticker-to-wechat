@@ -11,6 +11,7 @@ from pathlib import Path
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "pack_only.py"
 GIF = b"GIF89a" + (b"\x00" * 24)
 PNG = b"\x89PNG\r\n\x1a\n" + (b"\x00" * 24)
+WEBP = b"RIFF" + (24).to_bytes(4, "little") + b"WEBP" + (b"\x00" * 20)
 
 
 class PackOnlyTests(unittest.TestCase):
@@ -31,15 +32,21 @@ class PackOnlyTests(unittest.TestCase):
             (source / "b.gif").write_bytes(GIF)
             (source / "c.png").write_bytes(PNG)
             (source / "photo.jpg").write_bytes(b"\xff\xd8\xff" + b"photo")
+            nested = source / "nested"
+            nested.mkdir()
+            (nested / "d.webp").write_bytes(WEBP)
             output = root / "stickers.zip"
 
             result = self.run_script("--input", str(source), "--output", str(output))
 
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn("packaged=2", result.stdout)
+            self.assertIn("packaged=3", result.stdout)
             self.assertIn("duplicates=1", result.stdout)
             with zipfile.ZipFile(output) as archive:
-                self.assertEqual(archive.namelist(), ["sticker-001.gif", "sticker-002.png"])
+                self.assertEqual(
+                    archive.namelist(),
+                    ["sticker-001.gif", "sticker-002.png", "sticker-003.webp"],
+                )
 
     def test_rejects_disguised_media(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

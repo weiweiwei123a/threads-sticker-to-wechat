@@ -72,7 +72,7 @@ def main() -> int:
     duplicate_count = 0
     invalid_count = 0
 
-    for path in sorted(item for item in source.iterdir() if item.is_file()):
+    for path in sorted(item for item in source.rglob("*") if item.is_file()):
         if path.suffix.lower() not in SUPPORTED:
             continue
         if not has_valid_signature(path):
