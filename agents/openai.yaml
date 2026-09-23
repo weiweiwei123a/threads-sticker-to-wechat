@@ -1,0 +1,4 @@
+interface:
+  display_name: "Threads 表情搬运助手"
+  short_description: "从 Threads 主贴提取表情，去重后生成一个微信收藏 ZIP"
+  default_prompt: "使用 $threads-sticker-to-wechat 处理这个公开 Threads 帖子链接，只提取主贴表情，去重后生成一个微信收藏 ZIP。"
